@@ -3,3 +3,5 @@ streamlit
 matplotlib
 python-dotenv
 requests
+openai
+folium

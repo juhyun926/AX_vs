@@ -1,151 +1,392 @@
-#날씨 API 실습
-#Open WeatherMap 현재 날씨 API 로 특정 도시의 날씨를 가져와 출력한다
-#사전준비 openweatherMap 회원 가입후 ApI 발급
-# pip install requests python-dotenv
-#.env파일을 생성하고 이곳에 OPENWEATHER_API_KEY=발급받은 _API_키(깃에 안올려)
-#.env.example OPENWEATHER_API_KEY=your_key
-#.env.example 받아서 .env로 이름 바꾸고 자기 API를 채운다
-
-
-# from dotenv import load_dotenv
-
-# load_dotenv() #.env 파일을 읽어 환경변수로 등록한다.
-
-# API_KEY = os.getenv('OPENWEATHER_API_KEY') #api키 OPENWEATHER_API_KEY에 직접 언급하면 안돼
-
-
 import os
+import base64
+from pathlib import Path
 import requests
 import streamlit as st
-from dotenv import find_dotenv, load_dotenv
+from dotenv import load_dotenv
 
-# 상위 디렉터리 .env 자동 로드
-load_dotenv(find_dotenv())
+# 1. 파일 구조에 맞춘 상위 폴더 .env 및 fonts 경로 지정
+current_dir = Path(__file__).resolve().parent
+parent_dir = current_dir.parent
+parent_env_path = parent_dir / ".env"
+font_path = parent_dir / "fonts" / "온글잎 콘콘체.ttf"
 
-WEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
+# .env 로드
+if parent_env_path.exists():
+    load_dotenv(dotenv_path=parent_env_path)
+else:
+    load_dotenv()
+
+# 로컬 폰트 파일을 base64로 인코딩
+def get_font_base64(path):
+    if path.exists():
+        with open(path, "rb") as f:
+            data = f.read()
+        return base64.b64encode(data).decode()
+    return None
+
+font_base64 = get_font_base64(font_path)
+
+# 2. API 키 로드
 EXCHANGE_API_KEY = os.getenv("EXCHANGERATE_API_KEY")
+if not EXCHANGE_API_KEY:
+    try:
+        if "EXCHANGERATE_API_KEY" in st.secrets:
+            EXCHANGE_API_KEY = st.secrets["EXCHANGERATE_API_KEY"]
+    except Exception:
+        pass
 
-# 와이드 모드로 설정하여 좌우 배치가 시원하게 보이도록 구성
-st.set_page_config(page_title="글로벌 날씨 & 실시간 환율 대시보드", page_icon="🌐", layout="wide")
+# 페이지 기본 설정
+st.set_page_config(page_title="환율계산기", page_icon="🖩", layout="centered")
 
-st.title("🌐 글로벌 날씨 & 실시간 환율 대시보드")
-st.caption("OpenWeatherMap & ExchangeRate-API 실시간 데이터 연동")
+# 3. CSS 설정
+font_face_rule = ""
+if font_base64:
+    font_face_rule = f"""
+    @font-face {{
+        font-family: 'LocalKonkon';
+        src: url('data:font/truetype;charset=utf-8;base64,{font_base64}') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }}
+    """
+else:
+    font_face_rule = """
+    @font-face {
+        font-family: 'LocalKonkon';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2412-1@1.0/Ownglyph_corncorn-Rg.woff2') format('woff2');
+    }
+    """
 
-# API 키 유효성 체크
-if not WEATHER_API_KEY or not EXCHANGE_API_KEY:
-    st.error("API 키를 확인해주세요. `.env` 파일에 `OPENWEATHER_API_KEY`와 `EXCHANGERATE_API_KEY`가 모두 필요합니다.")
+st.markdown(f"""
+<style>
+    {font_face_rule}
+
+    .stApp {{
+        background-color: #e9ecef;
+    }}
+
+    .calc-wrapper {{
+        max-width: 470px;
+        margin: 0 auto;
+        background: linear-gradient(145deg, #2f353a, #1e2225);
+        border-radius: 28px;
+        padding: 26px 22px 30px 22px;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), inset 0 2px 4px rgba(255, 255, 255, 0.08);
+        border: 4px solid #3c4248;
+    }}
+
+    .calc-top-bar {{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        padding: 0 4px;
+    }}
+
+    .calc-brand {{
+        font-family: 'LocalKonkon', sans-serif !important;
+        color: #000000 !important;
+        background: #f1f3f5;
+        padding: 6px 18px;
+        border-radius: 8px;
+        font-size: 28px !important;
+        font-weight: bold;
+        letter-spacing: 1.5px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+        display: inline-block;
+    }}
+
+    .solar-panel {{
+        background: #111417;
+        width: 105px;
+        height: 24px;
+        border-radius: 4px;
+        border: 1px solid #495057;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }}
+    .solar-cell {{
+        width: 20%;
+        height: 80%;
+        border-right: 1px solid #343a40;
+        background: #1a1e21;
+    }}
+
+    /* 계산기 전자 LCD 화면: 폰트를 온글잎 콘콘체로 지정 */
+    .calc-screen {{
+        background: #8fa382;
+        border-radius: 12px;
+        padding: 16px 20px;
+        border: 3px solid #55624e;
+        box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.45);
+        color: #000000 !important;
+        text-align: left !important;
+        margin-bottom: 20px;
+        font-family: 'LocalKonkon', sans-serif !important;
+    }}
+    .lcd-sub {{
+        font-family: 'LocalKonkon', sans-serif !important;
+        font-size: 16px;
+        font-weight: bold;
+        color: #000000 !important;
+        margin-bottom: 6px;
+        text-align: left !important;
+    }}
+    .lcd-main {{
+        font-family: 'LocalKonkon', sans-serif !important;
+        font-size: 38px;
+        font-weight: 900;
+        color: #000000 !important;
+        letter-spacing: 1px;
+        line-height: 1.2;
+        text-align: left !important;
+    }}
+
+    /* 라벨(TO, FROM, 입력 금액 등) 네모 박스 제거 및 순수 검정 텍스트 적용 */
+    .stSelectbox label, 
+    .stNumberInput label, 
+    label[data-testid="stWidgetLabel"] p {{
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin-bottom: 4px !important;
+        color: #ffffff !important; /* 계산기 본체 어두운 배경 대비 가독성 확보 */
+        font-weight: 800 !important;
+        font-size: 15px !important;
+        display: block !important;
+    }}
+
+    div[data-baseweb="select"] > div, div[data-baseweb="input"] > div {{
+        background-color: #ffffff !important;
+        border-radius: 8px !important;
+        border: 2px solid #adb5bd !important;
+    }}
+    input {{
+        color: #000000 !important;
+        font-weight: bold !important;
+        font-size: 16px !important;
+    }}
+    div[data-baseweb="select"] span {{
+        color: #000000 !important;
+        font-weight: bold !important;
+    }}
+
+    /* 계산기 키패드 */
+    .keypad-grid {{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 2px solid #3c4248;
+    }}
+
+    .calc-btn {{
+        background: linear-gradient(145deg, #444b52, #32373c);
+        color: #ffffff;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        height: 52px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 12px;
+        box-shadow: 0 4px 0 #1c2023, 0 6px 10px rgba(0,0,0,0.4);
+        user-select: none;
+        cursor: pointer;
+        transition: all 0.08s ease;
+    }}
+    .calc-btn:hover {{
+        background: linear-gradient(145deg, #4e555d, #393f44);
+    }}
+    .calc-btn:active {{
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 #1c2023, 0 2px 4px rgba(0,0,0,0.3);
+    }}
+
+    .calc-btn-danger {{
+        background: linear-gradient(145deg, #d9383a, #b32426) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 0 #731315, 0 6px 10px rgba(0,0,0,0.4) !important;
+    }}
+    .calc-btn-danger:hover {{
+        background: linear-gradient(145deg, #e3484a, #c02b2d) !important;
+    }}
+    .calc-btn-danger:active {{
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 #731315 !important;
+    }}
+
+    .calc-btn-op {{
+        background: linear-gradient(145deg, #4a5560, #38424b) !important;
+        color: #ffd166 !important;
+        box-shadow: 0 4px 0 #21282e, 0 6px 10px rgba(0,0,0,0.4) !important;
+    }}
+    .calc-btn-op:hover {{
+        background: linear-gradient(145deg, #566370, #424e58) !important;
+    }}
+    .calc-btn-op:active {{
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 #21282e !important;
+    }}
+
+    .calc-btn-equal {{
+        background: linear-gradient(145deg, #06d6a0, #04a57b) !important;
+        color: #0b3d30 !important;
+        box-shadow: 0 4px 0 #02664c, 0 6px 10px rgba(0,0,0,0.4) !important;
+    }}
+    .calc-btn-equal:hover {{
+        background: linear-gradient(145deg, #1be0ab, #05b889) !important;
+    }}
+    .calc-btn-equal:active {{
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 #02664c !important;
+    }}
+
+    div.stButton > button {{
+        background: linear-gradient(145deg, #495057, #343a40) !important;
+        color: #f8f9fa !important;
+        border: 1px solid #6c757d !important;
+        border-radius: 10px !important;
+        font-weight: bold !important;
+        box-shadow: 0 4px 0 #212529 !important;
+    }}
+</style>
+""", unsafe_allow_html=True)
+
+# 4. 환율 데이터 가져오기 (1시간 캐시)
+@st.cache_data(ttl=3600)
+def fetch_rates(base_currency, api_key):
+    url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/{base_currency}"
+    try:
+        res = requests.get(url, timeout=5)
+        data = res.json()
+        if res.status_code == 200 and data.get("result") == "success":
+            return data["conversion_rates"]
+        return None
+    except Exception:
+        return None
+
+CURRENCY_DICT = {
+    "KRW": "KRW (대한민국 원)",
+    "USD": "USD (미국 달러)",
+    "JPY": "JPY (일본 엔)",
+    "EUR": "EUR (유로)",
+    "CNY": "CNY (중국 위안)",
+    "GBP": "GBP (영국 파운드)",
+    "VND": "VND (베트남 동)",
+    "THB": "THB (태국 바트)"
+}
+
+if "from_curr" not in st.session_state:
+    st.session_state.from_curr = "USD"
+if "to_curr" not in st.session_state:
+    st.session_state.to_curr = "KRW"
+
+def swap():
+    st.session_state.from_curr, st.session_state.to_curr = st.session_state.to_curr, st.session_state.from_curr
+
+# ----------------- 계산기 본체 -----------------
+st.markdown("""
+<div class="calc-wrapper">
+<div class="calc-top-bar">
+<span class="calc-brand">환율계산기</span>
+<div class="solar-panel">
+<div class="solar-cell"></div>
+<div class="solar-cell"></div>
+<div class="solar-cell"></div>
+<div class="solar-cell"></div>
+</div>
+</div>
+""", unsafe_allow_html=True)
+
+if not EXCHANGE_API_KEY:
+    st.error("API 키를 찾을 수 없습니다. 상위 폴더의 `.env` 파일을 확인해주세요.")
+    st.markdown("</div>", unsafe_allow_html=True)
     st.stop()
 
-# 화면 분할: 왼쪽(날씨) / 오른쪽(환율)
-left_col, right_col = st.columns([1, 1], gap="large")
+# 통화 선택 UI
+curr_keys = list(CURRENCY_DICT.keys())
+c1, c_swap, c2 = st.columns([5, 2, 5])
 
-# ==========================================
-# [LEFT COLUMN] 실시간 날씨 섹션
-# ==========================================
-with left_col:
-    st.subheader("🌤️ 실시간 날씨 정보")
-    
-    with st.form("weather_form"):
-        col_input, col_btn = st.columns([3, 1])
-        with col_input:
-            city_name = st.text_input("도시 이름 (영문)", value="Seoul", placeholder="예: Seoul, Tokyo, New York")
-        with col_btn:
-            st.write("")
-            st.write("")
-            weather_submitted = st.form_submit_button("날씨 조회", use_container_width=True)
+with c1:
+    from_curr = st.selectbox(
+        "FROM",
+        options=curr_keys,
+        format_func=lambda x: CURRENCY_DICT.get(x, x),
+        key="from_curr"
+    )
 
-    if city_name.strip():
-        weather_url = "https://api.openweathermap.org/data/2.5/weather"
-        weather_params = {
-            "q": city_name.strip(),
-            "appid": WEATHER_API_KEY,
-            "units": "metric",
-            "lang": "kr"
-        }
+with c_swap:
+    st.write("")
+    st.write("")
+    st.button("⇄", on_click=swap, help="통화 맞바꾸기", use_container_width=True)
 
-        try:
-            w_res = requests.get(weather_url, params=weather_params, timeout=5)
-            w_data = w_res.json()
+with c2:
+    to_curr = st.selectbox(
+        "TO",
+        options=curr_keys,
+        format_func=lambda x: CURRENCY_DICT.get(x, x),
+        key="to_curr"
+    )
 
-            if w_res.status_code == 200:
-                weather_desc = w_data["weather"][0]["description"]
-                icon_code = w_data["weather"][0]["icon"]
-                temp = w_data["main"]["temp"]
-                feels_like = w_data["main"]["feels_like"]
-                humidity = w_data["main"]["humidity"]
-                wind_speed = w_data["wind"]["speed"]
-                country = w_data["sys"]["country"]
+# 금액 입력
+amount = st.number_input(
+    f"입력 금액 ({from_curr})",
+    min_value=0.0,
+    value=1.0 if from_curr != "KRW" else 10000.0,
+    step=10.0 if from_curr != "KRW" else 1000.0
+)
 
-                st.success(f"**{w_data['name']} ({country})** 날씨 결과")
-                
-                c_icon, c_temp = st.columns([1, 2])
-                with c_icon:
-                    st.image(f"https://openweathermap.org/img/wn/{icon_code}@4x.png", width=110)
-                with c_temp:
-                    st.metric(label="현재 기온", value=f"{temp:.1f} °C", delta=f"체감 {feels_like:.1f} °C")
-                    st.write(f"상태: **{weather_desc}**")
+# 환율 계산 로직
+rates = fetch_rates(from_curr, EXCHANGE_API_KEY)
 
-                st.divider()
-                sub_col1, sub_col2 = st.columns(2)
-                sub_col1.metric("습도", f"{humidity}%")
-                sub_col2.metric("풍속", f"{wind_speed} m/s")
+if rates and to_curr in rates:
+    rate = rates[to_curr]
+    converted_val = amount * rate
+    display_text = f"{converted_val:,.2f}"
+    rate_info = f"1 {from_curr} = {rate:,.4f} {to_curr}"
+else:
+    display_text = "ERROR"
+    rate_info = "NETWORK / API ERROR"
 
-            elif w_res.status_code == 404:
-                st.warning("입력하신 도시를 찾을 수 없습니다. 영문 철자를 확인해주세요.")
-            else:
-                st.error(f"날씨 조회 실패: {w_data.get('message', '오류 발생')}")
-        except requests.exceptions.RequestException as e:
-            st.error(f"날씨 API 호출 에러: {e}")
+# 1. LCD 화면 (온글잎 콘콘체 적용)
+st.markdown(f"""
+<div class="calc-screen">
+<div class="lcd-sub">{rate_info}</div>
+<div class="lcd-main">{display_text} <span style="font-size:22px;">{to_curr}</span></div>
+</div>
+""", unsafe_allow_html=True)
 
-# ==========================================
-# [RIGHT COLUMN] 실시간 환율 섹션
-# ==========================================
-with right_col:
-    st.subheader("💱 실시간 환율 정보 (USD 기준)")
+# 2. 숫자 및 연산자 키패드
+st.markdown("""<div class="keypad-grid">
+<div class="calc-btn calc-btn-danger">AC</div>
+<div class="calc-btn calc-btn-danger">C</div>
+<div class="calc-btn calc-btn-op">+/-</div>
+<div class="calc-btn calc-btn-op">÷</div>
+<div class="calc-btn">7</div>
+<div class="calc-btn">8</div>
+<div class="calc-btn">9</div>
+<div class="calc-btn calc-btn-op">×</div>
+<div class="calc-btn">4</div>
+<div class="calc-btn">5</div>
+<div class="calc-btn">6</div>
+<div class="calc-btn calc-btn-op">-</div>
+<div class="calc-btn">1</div>
+<div class="calc-btn">2</div>
+<div class="calc-btn">3</div>
+<div class="calc-btn calc-btn-op">+</div>
+<div class="calc-btn">0</div>
+<div class="calc-btn">00</div>
+<div class="calc-btn">.</div>
+<div class="calc-btn calc-btn-equal">=</div>
+</div>""", unsafe_allow_html=True)
 
-    # ExchangeRate-API 최신 환율 가져오기
-    exchange_url = f"https://v6.exchangerate-api.com/v6/{EXCHANGE_API_KEY}/latest/USD"
-
-    try:
-        ex_res = requests.get(exchange_url, timeout=5)
-        ex_data = ex_res.json()
-
-        if ex_res.status_code == 200 and ex_data.get("result") == "success":
-            rates = ex_data["conversion_rates"]
-            krw_rate = rates.get("KRW", 0)
-            jpy_rate = rates.get("JPY", 0)
-            eur_rate = rates.get("EUR", 0)
-            cny_rate = rates.get("CNY", 0)
-
-            # 주요 통화 대시보드 카드
-            r_col1, r_col2 = st.columns(2)
-            r_col1.metric("USD / KRW", f"{krw_rate:,.2f} 원")
-            r_col2.metric("USD / JPY", f"{jpy_rate:,.2f} 엔")
-
-            r_col3, r_col4 = st.columns(2)
-            r_col3.metric("USD / EUR", f"{eur_rate:,.4f} 유로")
-            r_col4.metric("USD / CNY", f"{cny_rate:,.4f} 위안")
-
-            st.divider()
-            
-            # 실시간 통화 계산기
-            st.markdown("##### 🔢 실시간 통화 계산기")
-            calc_col1, calc_col2 = st.columns(2)
-            
-            with calc_col1:
-                target_currency = st.selectbox(
-                    "변환할 통화",
-                    options=["KRW", "JPY", "EUR", "CNY", "GBP", "CAD", "AUD"],
-                    index=0
-                )
-            with calc_col2:
-                usd_amount = st.number_input("달러 금액 ($)", min_value=1.0, value=100.0, step=10.0)
-
-            converted_val = usd_amount * rates.get(target_currency, 0)
-            st.info(f"**${usd_amount:,.2f} USD** = **{converted_val:,.2f} {target_currency}**")
-
-        else:
-            st.error(f"환율 데이터를 가져올 수 없습니다: {ex_data.get('error-type', '알 수 없는 에러')}")
-
-    except requests.exceptions.RequestException as e:
-        st.error(f"환율 API 호출 에러: {e}")
+# 계산기 본체 닫기
+st.markdown("</div>", unsafe_allow_html=True)

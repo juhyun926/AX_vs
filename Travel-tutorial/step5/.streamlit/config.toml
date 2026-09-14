@@ -1,0 +1,10 @@
+[theme]
+primaryColor = "#1E88E5"              # 메인 포인트 컬러 (블루)
+backgroundColor = "#FFFFFF"           # 기본 배경색
+secondaryBackgroundColor = "#F4F6F9"  # 사이드바 및 카드 배경색
+textColor = "#262730"                 # 본문 텍스트 색상
+font = "sans serif"
+
+[server]
+headless = true
+enableCORS = false
