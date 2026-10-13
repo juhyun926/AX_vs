@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KKUMi × 치이카와 콜라보 에디션</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link rel="stylesheet" href="css/collab.css" />
+</head>
+<body>
+
+<!-- 배경 낙서 장식 (일반 도형) -->
+<div class="doodles" aria-hidden="true">
+  <span class="d star d1">✦</span><span class="d star d2">✧</span><span class="d heart d3">♡</span>
+  <span class="d star d4">✦</span><span class="d heart d5">♡</span><span class="d star d6">✧</span>
+</div>
+
+<header class="c-header">
+  <div class="wrap c-header-inner">
+    <a href="index.html" class="c-logo">KKUMi <span>×</span> 치이카와</a>
+    <nav class="c-nav" aria-label="콜라보 메뉴">
+      <a href="#editions">에디션</a>
+      <a href="#theme">앱 테마</a>
+      <a href="#order">주문하기</a>
+      <a href="index.html" class="c-back">← 꾸미 홈</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ========== HERO ========== -->
+  <section class="c-hero">
+    <div class="wrap">
+      <p class="c-badge">COLLABORATION · LIMITED</p>
+      <h1 class="c-title">
+        <span class="t-group">
+          <img src="images/kkumi-front.png" alt="" class="t-img t-img-left" />
+          <span class="t-kkumi">꾸미</span>
+        </span>
+        <span class="t-x">×</span>
+        <span class="t-group">
+          <span class="t-collab">먼작귀</span>
+          <img src="images/ek.png" alt="" class="t-img t-img-right" data-fallback="ek.png" />
+        </span>
+      </h1>
+      <p class="c-sub">작고 귀여운 친구들이 내 책상 위로 왔어요.<br />같이 공부하면, 오늘도 해낼 수 있을 거야!</p>
+
+      <div class="c-hero-stage">
+        <figure class="sticker s-a"><img src="images/cldl.png" alt="콜라보 에디션 01" data-fallback="cldl.png" /></figure>
+        <figure class="sticker s-b"><img src="images/gkcl.png" alt="콜라보 에디션 02" data-fallback="gkcl.png" /></figure>
+        <figure class="sticker s-c"><img src="images/dntk.png" alt="콜라보 에디션 03" data-fallback="dntk.png" /></figure>
+        <div class="grass" aria-hidden="true"></div>
+      </div>
+
+      <a href="#order" class="c-btn c-btn-pink">사전 예약하기</a>
+      <p class="c-countdown">예약 마감까지 <b id="countdown">--일 --:--:--</b></p>
+    </div>
+  </section>
+
+  <!-- ========== EDITIONS ========== -->
+  <section class="c-section" id="editions">
+    <div class="wrap">
+      <h2 class="c-h2"><span class="hl">세 가지 에디션</span>이 있어요</h2>
+      <p class="c-lead">꾸미의 기능은 그대로! 얼굴 화면과 귀, 몸 색이 콜라보 디자인으로 바뀌었어요.</p>
+
+      <div class="ed-grid">
+        <article class="ed-card" data-ed="0" style="--tone:#FFE3E8">
+          <div class="ed-img"><img src="images/cldl.png" alt="치이카와 에디션" data-fallback="cldl.png" /></div>
+          <span class="ed-no">EDITION 01</span>
+          <h3>치이카와 에디션</h3>
+          <p>하얀 몸에 발그레한 볼. 공부할 때 가장 다정하게 응원해 주는 친구.</p>
+          <button class="c-btn c-btn-sm" data-pick="0">이걸로 할래요</button>
+        </article>
+        <article class="ed-card" data-ed="1" style="--tone:#DDEEFF">
+          <div class="ed-img"><img src="images/gkcl.png" alt="하치와레 에디션" data-fallback="gkcl.png" /></div>
+          <span class="ed-no">EDITION 02</span>
+          <h3>하치와레 에디션</h3>
+          <p>씩씩하고 긍정적인 에너지로 오늘의 목표까지 함께 달려가요.</p>
+          <button class="c-btn c-btn-sm" data-pick="1">이걸로 할래요</button>
+        </article>
+        <article class="ed-card" data-ed="2" style="--tone:#FFF3C9">
+          <div class="ed-img"><img src="images/dntk.png" alt="우사기 에디션" data-fallback="dntk.png" /></div>
+          <span class="ed-no">EDITION 03</span>
+          <h3>우사기 에디션</h3>
+          <p>예측불가 텐션! 딴짓하면 누구보다 크게 반응하는 친구.</p>
+          <button class="c-btn c-btn-sm" data-pick="2">이걸로 할래요</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SAME FEATURES ========== -->
+  <section class="c-section c-features">
+    <div class="wrap">
+      <h2 class="c-h2">기능은 꾸미 그대로예요</h2>
+      <ul class="feat-bubbles">
+        <li><b>⏱</b>공부 기록 버튼</li>
+        <li><b>☾</b>휴식하면 같이 쿨쿨</li>
+        <li><b>♡</b>쓰담쓰담 반응</li>
+        <li><b>📱</b>폰 하면 울먹울먹</li>
+        <li><b>🎉</b>목표 달성 특별 표정</li>
+        <li><b>🔓</b>연속 기록 해금</li>
+        <li><b>ᛒ</b>블루투스 앱 연동</li>
+        <li><b>⚡</b>C타입 충전</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== APP THEME ========== -->
+  <section class="c-section" id="theme">
+    <div class="wrap">
+      <h2 class="c-h2">앱도 <span class="hl">콜라보 테마</span>로 바뀌어요</h2>
+      <p class="c-lead">콜라보 에디션을 연결하면 꾸미 앱 전체가 선택한 친구의 테마로 꾸며져요.</p>
+      <div class="theme-row">
+        <div class="t-phone" style="--tone:#FFE3E8;--accent:#F28FA5">
+          <div class="t-screen">
+            <p class="t-top">오늘의 공부 <span>3h 20m</span></p>
+            <div class="t-hero"><img src="images/cldl.png" alt="" data-fallback="cldl.png" /></div>
+            <div class="t-bar"><i style="width:72%"></i></div>
+            <p class="t-msg">목표까지 조금만 더! 할 수 있어 ✿</p>
+            <div class="t-chips"><span>달력</span><span>리포트</span><span>꾸미기</span></div>
+          </div>
+        </div>
+        <div class="t-phone" style="--tone:#DDEEFF;--accent:#7FB2E5">
+          <div class="t-screen">
+            <p class="t-top">오늘의 공부 <span>2h 05m</span></p>
+            <div class="t-hero"><img src="images/gkcl.png" alt="" data-fallback="gkcl.png" /></div>
+            <div class="t-bar"><i style="width:48%"></i></div>
+            <p class="t-msg">좋아, 이 기세로 가보자구 ✧</p>
+            <div class="t-chips"><span>달력</span><span>리포트</span><span>꾸미기</span></div>
+          </div>
+        </div>
+        <div class="t-phone" style="--tone:#FFF3C9;--accent:#E8B940">
+          <div class="t-screen">
+            <p class="t-top">오늘의 공부 <span>4h 40m</span></p>
+            <div class="t-hero"><img src="images/dntk.png" alt="" data-fallback="dntk.png" /></div>
+            <div class="t-bar"><i style="width:96%"></i></div>
+            <p class="t-msg">목표 달성 직전!! 야호~! ✦</p>
+            <div class="t-chips"><span>달력</span><span>리포트</span><span>꾸미기</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ORDER ========== -->
+  <section class="c-section c-order" id="order">
+    <div class="wrap order-grid">
+      <div class="order-visual">
+        <div class="order-photo" id="orderPhoto"><img src="images/cldl.png" alt="선택한 에디션" id="orderImg" data-fallback="cldl.png" /></div>
+        <p class="order-tag" id="orderTag">EDITION 01 · 치이카와 에디션</p>
+      </div>
+
+      <form class="order-box" id="orderForm">
+        <h2 class="c-h2 left">사전 예약 주문</h2>
+        <p class="price-line"><b id="cUnit">89,000원</b><span>사전 예약 특가 · 12월 순차 배송</span></p>
+
+        <fieldset>
+          <legend>에디션 선택</legend>
+          <div class="ed-pick" id="edPick">
+            <label><input type="radio" name="ed" value="0" checked /><span style="--tone:#FFE3E8">치이카와</span></label>
+            <label><input type="radio" name="ed" value="1" /><span style="--tone:#DDEEFF">하치와레</span></label>
+            <label><input type="radio" name="ed" value="2" /><span style="--tone:#FFF3C9">우사기</span></label>
+            <label><input type="radio" name="ed" value="set" /><span style="--tone:#E9E1FF">3종 세트 <small>-10%</small></span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>수량</legend>
+          <div class="c-qty">
+            <button type="button" id="cMinus" aria-label="수량 줄이기">−</button>
+            <input type="number" id="cQty" value="1" min="1" max="5" aria-label="수량" />
+            <button type="button" id="cPlus" aria-label="수량 늘리기">+</button>
+          </div>
+        </fieldset>
+
+        <label class="gift"><input type="checkbox" id="cGift" /> 콜라보 스티커 팩 추가 (+3,000원)</label>
+
+        <div class="c-total"><span>총 금액</span><strong id="cTotal">89,000원</strong></div>
+        <button type="submit" class="c-btn c-btn-pink c-btn-block">예약하기</button>
+        <p class="c-note">1인 최대 5개 · 한정 수량으로 조기 마감될 수 있어요</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="c-footer">
+  <div class="wrap">
+    <a href="index.html" class="c-logo small">KKUMi</a>
+    <p>© 2026 KKUMi. 캐릭터 저작권은 각 권리사에 있습니다.</p>
+  </div>
+</footer>
+
+<div class="c-toast" id="cToast" role="status" aria-live="polite"></div>
+<script src="js/collab.js"></script>
+</body>
+</html>

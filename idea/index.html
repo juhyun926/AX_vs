@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KKUMi 꾸미 | 귀여운 애랑 공부하자</title>
+  <meta name="description" content="꾸준히 집중하게 도와주는 AI 스터디 매니저, 꾸미." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Gowun+Dodum&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ================= 상단 유틸 + 헤더 ================= -->
+<div class="util-bar">
+  <div class="wrap">
+    <a href="#news">꾸미 소식</a><a href="#help">고객센터</a><a href="#app">앱 다운로드</a><a href="collab.html">콜라보</a><a href="#">로그인</a>
+  </div>
+</div>
+
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a href="index.html" class="logo" aria-label="KKUMi 홈">
+      <span class="logo-leaf" aria-hidden="true"></span>KKUMi
+    </a>
+    <nav class="gnb" id="gnb" aria-label="주요 메뉴">
+      <a href="#about">꾸미 소개</a>
+      <a href="#mood">꾸미의 마음</a>
+      <a href="#features">기능</a>
+      <a href="#app">앱 연동</a>
+      <a href="#detail">제품 상세</a>
+      <a href="#buy">구매하기</a>
+      <a href="collab.html" class="gnb-collab">콜라보 ✦</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#buy" class="btn btn-sm btn-forest">구매하기</a>
+      <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-copy reveal">
+      <p class="eyebrow">AI Study Companion</p>
+      <h1 class="hero-title">Study,<br /><em>with</em> KKUMi</h1>
+      <p class="hero-sub">꾸준할 <b>꾸</b>, 꿈이 이루어질 <b>미</b>.<br />귀여운 애랑 오늘도 같이 공부해요.</p>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="hero-halo"></div>
+      <img src="images/kkumi-front.png" alt="꾸미 제품 정면 사진" class="hero-product float" />
+      <div class="hero-mini hero-mini--a" data-kkumi="cheer"></div>
+      <span class="sparkle s1">✦</span><span class="sparkle s2">✧</span><span class="sparkle s3">✦</span>
+    </div>
+  </div>
+
+  <!-- 참고 사이트의 파란 배너 + 퀵메뉴 + 로그인 카드 구성 -->
+  <div class="wrap">
+    <div class="hero-band reveal">
+      <div class="band-text">
+        <strong>오래 기다렸어요.</strong>
+        <span>오늘부터 꾸미랑 꾸준히, 같이 공부해요.</span>
+      </div>
+      <aside class="band-card">
+        <div class="band-card-face" data-kkumi="happy"></div>
+        <p class="band-card-title">반가워요 <b>공부러</b>님!</p>
+        <p class="band-card-desc">꾸미 앱을 설치하면<br />공부 기록이 자동으로 쌓여요.</p>
+        <a href="#app" class="btn btn-butter btn-block">앱 연결하기 ›</a>
+      </aside>
+    </div>
+    <ul class="quick-menu reveal">
+      <li><a href="#features" data-tab="record"><span class="qi">⏱</span>공부 기록</a></li>
+      <li><a href="#features" data-tab="rest"><span class="qi">☾</span>휴식 모드</a></li>
+      <li><a href="#mood"><span class="qi">☺</span>꾸미 표정</a></li>
+      <li><a href="#app"><span class="qi">ᛒ</span>앱 연동</a></li>
+      <li><a href="#app"><span class="qi">▤</span>주간 리포트</a></li>
+      <li><a href="#app"><span class="qi">❀</span>캐릭터 키우기</a></li>
+      <li><a href="#detail"><span class="qi">⌖</span>제품 상세</a></li>
+      <li><a href="#buy"><span class="qi">♡</span>구매하기</a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 꾸미 소개 ================= -->
+<section class="section about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-visual reveal">
+      <button class="pet-kkumi" id="petKkumi" aria-label="꾸미 쓰담쓰담하기">
+        <div data-kkumi="happy" id="petFace"></div>
+      </button>
+      <p class="pet-hint" id="petHint">꾸미를 눌러서 쓰담쓰담 해보세요</p>
+    </div>
+    <div class="about-copy reveal">
+      <p class="eyebrow">Who is KKUMi?</p>
+      <h2 class="section-title">꾸미는 당신 옆의<br />작은 스터디 매니저예요</h2>
+      <p class="lead">공부가 어렵고, 집중이 자꾸 흐트러지는 10대부터 30대까지.<br />꾸미는 잔소리 대신 <b>표정</b>으로 말해요.</p>
+      <ul class="about-points">
+        <li><span class="ap-num">01</span><div><b>꾸준함을 만들어요</b><p>책상 위에 켜두기만 하면 공부 시간이 자동으로 기록돼요.</p></div></li>
+        <li><span class="ap-num">02</span><div><b>AI 스터디 관리</b><p>나의 집중 패턴을 분석해 다음 주 계획까지 도와줘요.</p></div></li>
+        <li><span class="ap-num">03</span><div><b>귀여움으로 승부</b><p>폰을 들면 꾸미가 슬퍼해요. 그 얼굴을 외면하기는 어렵죠.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 폰 사용 → 꾸미 표정 ================= -->
+<section class="section mood" id="mood">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Phone × KKUMi</p>
+      <h2 class="section-title">폰을 오래 할수록, 꾸미는 슬퍼져요</h2>
+      <p class="lead">블루투스로 연결된 휴대폰 사용 시간에 따라 꾸미의 표정이 실시간으로 바뀌어요.<br />슬라이더를 움직여 직접 확인해 보세요.</p>
+    </div>
+
+    <div class="mood-stage reveal">
+      <div class="mood-device">
+        <div id="moodFace" data-kkumi="happy"></div>
+        <p class="mood-state" id="moodState">공부 중 · 꾸미가 뿌듯해해요</p>
+      </div>
+      <div class="mood-control">
+        <label for="moodRange" class="mood-label">휴대폰 사용 시간 <output id="moodOut">0분</output></label>
+        <input type="range" id="moodRange" min="0" max="75" value="0" step="1" />
+        <ol class="mood-steps">
+          <li data-min="0"><b>공부 중</b><span>뿌듯</span></li>
+          <li data-min="5"><b>5분 내외</b><span>괜춘</span></li>
+          <li data-min="10"><b>10분 내외</b><span>약간 우울</span></li>
+          <li data-min="30"><b>30분 내외</b><span>엉엉</span></li>
+          <li data-min="60"><b>1시간+</b><span>개빡침</span></li>
+        </ol>
+        <div class="push-preview" id="pushPreview" aria-live="polite">
+          <span class="push-icon" data-kkumi="sad"></span>
+          <div><b>꾸미</b><p id="pushText">이제 슬슬 공부해볼까?</p></div>
+          <time>지금</time>
+        </div>
+        <button class="btn btn-forest" id="backToStudy">다시 공부 시작하기</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 꾸미 자체 기능 (카테고리 탭 + 카드 캐러셀) ================= -->
+<section class="section features" id="features">
+  <div class="arc arc-butter" aria-hidden="true"></div>
+  <div class="arc arc-forest" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="feat-head reveal">
+      <h2 class="section-title">꾸미 혼자서도<br />이만큼 할 수 있어요</h2>
+      <div class="chip-tabs" role="tablist" id="featTabs">
+        <button role="tab" data-tab="record" class="active">공부 기록</button>
+        <button role="tab" data-tab="rest">휴식</button>
+        <button role="tab" data-tab="pet">쓰담쓰담</button>
+        <button role="tab" data-tab="start">응원</button>
+        <button role="tab" data-tab="goal">목표 달성</button>
+        <button role="tab" data-tab="streak">연속 기록</button>
+      </div>
+    </div>
+
+    <div class="feat-track" id="featTrack">
+      <article class="feat-card" data-tab="record">
+        <div class="fc-face" data-kkumi="cheer"></div>
+        <div class="fc-body"><h3>공부 기록 버튼</h3><p>옆구리 버튼을 한 번 누르면 공부 시작, 다시 누르면 공부 종료. 기록은 앱으로 자동 전송돼요.</p></div>
+      </article>
+      <article class="feat-card" data-tab="rest">
+        <div class="fc-face" data-kkumi="sleep"></div>
+        <div class="fc-body"><h3>휴식 버튼</h3><p>쉬는 동안 꾸미도 함께 쉬어요. 새근새근 잠을 자거나 편안한 얼굴을 지어요.</p></div>
+      </article>
+      <article class="feat-card" data-tab="pet">
+        <div class="fc-face" data-kkumi="love"></div>
+        <div class="fc-body"><h3>쓰담쓰담 반응</h3><p>머리를 쓰다듬거나 만지면 꾸미의 표정이 바뀌어요. 공부하다 지칠 때 작은 위로가 돼요.</p></div>
+      </article>
+      <article class="feat-card" data-tab="start">
+        <div class="fc-face" data-kkumi="cheer"></div>
+        <div class="fc-body"><h3>시작할 때 응원</h3><p>공부를 시작하면 반짝이는 눈으로 응원해 줘요. 오늘도 할 수 있어요!</p></div>
+      </article>
+      <article class="feat-card" data-tab="goal">
+        <div class="fc-face" data-kkumi="wow"></div>
+        <div class="fc-body"><h3>목표 달성 특별 표정</h3><p>하루 목표를 채우면 꾸미가 평소엔 볼 수 없는 특별한 표정을 보여줘요.</p></div>
+      </article>
+      <article class="feat-card" data-tab="streak">
+        <div class="fc-face" data-kkumi="happy"></div>
+        <div class="fc-body"><h3>연속 기록 해금</h3><p>꾸준히 공부한 날이 쌓이면 꾸미의 액세서리와 배경이 하나씩 열려요.</p></div>
+      </article>
+    </div>
+    <div class="carousel-nav">
+      <span class="count"><b id="featIdx">01</b> / <span id="featTotal">06</span></span>
+      <div><button class="arrow" id="featPrev" aria-label="이전">←</button><button class="arrow" id="featNext" aria-label="다음">→</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 앱 연동 (추천상품 카드 구성) ================= -->
+<section class="section app" id="app">
+  <div class="wrap">
+    <div class="app-head reveal">
+      <div class="app-head-face" data-kkumi="cheer"></div>
+      <div>
+        <p class="eyebrow">KKUMi App</p>
+        <h2 class="section-title">휴대폰과 연결하면 더 똑똑해져요</h2>
+        <p class="lead">블루투스를 켜고 앱만 설치하면 끝. 꾸미를 켜둔 채 공부하면 오늘의 공부 스케줄이 앱에 자동으로 기록돼요.<br /><small>앱 디자인은 꾸미 테마에 따라 바뀌어요. 콜라보 에디션을 쓰면 앱도 그 테마로!</small></p>
+      </div>
+    </div>
+
+    <div class="app-grid">
+      <!-- 1. 캐릭터 키우기 -->
+      <article class="app-card reveal">
+        <div class="app-card-top">
+          <h3>캐릭터 키우기</h3>
+          <p>연속 공부 기록이 쌓이면 액세서리와 배경이 해금돼요.</p>
+          <div class="tags"><span>액세서리</span><span>배경</span><span>연속 기록</span></div>
+        </div>
+        <div class="phone">
+          <div class="phone-screen grow-screen">
+            <p class="ps-title">꾸미 방 <span>🔥 12일 연속</span></p>
+            <div class="grow-room"><div data-kkumi="happy"></div></div>
+            <div class="unlock-row">
+              <span class="unlocked">🎀</span><span class="unlocked">🎓</span><span class="unlocked">🌙</span><span class="locked">🔒<small>14일</small></span><span class="locked">🔒<small>30일</small></span>
+            </div>
+            <div class="progress"><i style="width:80%"></i></div>
+            <p class="ps-note">다음 해금까지 2일!</p>
+          </div>
+        </div>
+        <div class="app-card-foot"><a href="#buy">꾸미 데려가기</a><a href="collab.html">테마 보기</a></div>
+      </article>
+
+      <!-- 2. 스터디 기록 -->
+      <article class="app-card reveal">
+        <div class="app-card-top">
+          <h3>스터디 기록</h3>
+          <p>한 달 달력으로 날짜별 공부량을 한눈에. 플래너 기록도 쭉 모아봐요.</p>
+          <div class="tags"><span>월간 달력</span><span>플래너</span><span>자동 기록</span></div>
+        </div>
+        <div class="phone">
+          <div class="phone-screen">
+            <p class="ps-title" id="calTitle">2026년 10월</p>
+            <div class="cal-week"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
+            <div class="cal-grid" id="calGrid"></div>
+            <div class="cal-legend"><span>적음</span><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>많음</span></div>
+            <div class="planner">
+              <p><span class="dot done"></span>수학 문제집 3단원 <em>1h 40m</em></p>
+              <p><span class="dot done"></span>영어 단어 50개 <em>45m</em></p>
+              <p><span class="dot"></span>국어 비문학 2지문 <em>—</em></p>
+            </div>
+          </div>
+        </div>
+        <div class="app-card-foot"><a href="#buy">꾸미 데려가기</a><a href="#help">자주 묻는 질문</a></div>
+      </article>
+
+      <!-- 3. 주간 리포트 -->
+      <article class="app-card reveal">
+        <div class="app-card-top">
+          <h3>주간 공부 리포트</h3>
+          <p>요일별 공부 시간과 휴대폰 사용 시간을 비교하고 패턴을 분석해요.</p>
+          <div class="tags"><span>패턴 분석</span><span>목표 달성률</span><span>집중 시간대</span></div>
+        </div>
+        <div class="phone">
+          <div class="phone-screen">
+            <p class="ps-title">이번 주 리포트</p>
+            <div class="bars" id="weekBars"></div>
+            <div class="bar-legend"><span><i class="study"></i>공부</span><span><i class="phone-use"></i>휴대폰</span></div>
+            <div class="stat-row">
+              <div class="ring" style="--p:82"><b>82%</b><small>목표 달성</small></div>
+              <div class="best-time"><small>가장 집중 잘 된 시간</small><b>오후 8–10시</b></div>
+            </div>
+            <div class="congrats"><span data-kkumi="love"></span><p>지난주보다 <b>꾸준함 +12%</b>!<br />꾸미가 축하해요 🎉</p></div>
+          </div>
+        </div>
+        <div class="app-card-foot"><a href="#buy">꾸미 데려가기</a><a href="#help">자주 묻는 질문</a></div>
+      </article>
+    </div>
+
+    <!-- 해결 문제 / 차별점 -->
+    <div class="why reveal">
+      <div class="why-col">
+        <p class="why-tag">해결하는 문제</p>
+        <p class="why-text">“내 공부 습관, 진짜 나아지고 있는 걸까?”<br />알기 어려웠던 변화를 숫자와 표정으로 보여줘요.</p>
+      </div>
+      <div class="why-col why-col--accent">
+        <p class="why-tag">꾸미만의 차별점</p>
+        <p class="why-text">시간을 저장하는 데서 끝나지 않아요.<br /><b>이번 주 분석이 다음 주 계획</b>으로 이어져요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 제품 클로즈업 ================= -->
+<section class="section detail" id="detail">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Close-up</p>
+      <h2 class="section-title">어디를 누르면 되냐면요</h2>
+      <p class="lead">번호를 눌러 각 부분을 자세히 살펴보세요.</p>
+    </div>
+    <div class="detail-grid">
+      <div class="hotspot-stage reveal">
+        <img src="images/kkumi-front.png" alt="꾸미 제품 클로즈업" />
+        <button class="hotspot" style="left:62%;top:16%" data-spot="0">1</button>
+        <button class="hotspot" style="left:44%;top:66%" data-spot="1">2</button>
+        <button class="hotspot" style="left:89%;top:57%" data-spot="2">3</button>
+        <button class="hotspot" style="left:36%;top:30%" data-spot="3">4</button>
+        <button class="hotspot" style="left:80%;top:84%" data-spot="4">5</button>
+        <button class="hotspot" style="left:22%;top:92%" data-spot="5">6</button>
+      </div>
+      <div class="spot-panel reveal">
+        <ol class="spot-list" id="spotList">
+          <li data-spot="0"><span>1</span><div><b>새싹 · 휴식 버튼</b><p>머리 위 새싹을 꾹 누르면 휴식 모드. 꾸미가 잠들거나 편안한 표정으로 함께 쉬어요.</p></div></li>
+          <li data-spot="1"><span>2</span><div><b>페이스 디스플레이</b><p>공부 타이머와 꾸미의 표정이 나타나는 화면이에요. 폰 사용 시간에 따라 표정이 실시간으로 바뀌어요.</p></div></li>
+          <li data-spot="2"><span>3</span><div><b>공부 기록 버튼</b><p>옆면의 원형 버튼. 한 번 누르면 공부 시작, 다시 누르면 공부 종료와 함께 기록이 저장돼요. 은은한 링 조명으로 상태를 알려줘요.</p></div></li>
+          <li data-spot="3"><span>4</span><div><b>쓰담쓰담 터치 센서</b><p>머리 윗부분 전체가 터치 센서예요. 쓰다듬으면 꾸미가 기분 좋은 표정으로 반응해요.</p></div></li>
+          <li data-spot="4"><span>5</span><div><b>USB C타입 충전 포트</b><p>뒷면 오른쪽 아래에 있어요. 휴대폰 충전기와 같은 C타입 케이블로 충전해요.</p></div></li>
+          <li data-spot="5"><span>6</span><div><b>미끄럼 방지 패드</b><p>동그란 두 발 바닥에 실리콘 패드가 있어 책상 위에서도 흔들림 없이 안정적이에요.</p></div></li>
+        </ol>
+        <div class="spec">
+          <div><small>연결</small><b>Bluetooth 5.3</b></div>
+          <div><small>충전</small><b>USB Type-C</b></div>
+          <div><small>사용 시간</small><b>최대 12시간</b></div>
+          <div><small>크기</small><b>약 11 × 9.5 cm</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 구매 ================= -->
+<section class="section buy" id="buy">
+  <div class="wrap buy-grid">
+    <div class="buy-visual reveal">
+      <div class="buy-photo" id="buyPhoto">
+        <img src="images/kkumi-front.png" alt="꾸미 선택한 색상 미리보기" id="buyImg" />
+      </div>
+      <div class="buy-thumbs">
+        <button class="thumb active" data-src="images/kkumi-front.png"><img src="images/kkumi-front.png" alt="정면" /></button>
+        <button class="thumb" data-src="images/kkumi-side.png"><img src="images/kkumi-side.png" alt="측면" /></button>
+      </div>
+    </div>
+
+    <form class="buy-box reveal" id="buyForm">
+      <p class="eyebrow">KKUMi Original</p>
+      <h2 class="buy-title">꾸미 AI 스터디 메이트</h2>
+      <p class="buy-desc">블루투스 앱 연동 · 표정 디스플레이 · C타입 충전</p>
+      <div class="price-row">
+        <span class="discount">20%</span>
+        <strong class="price" id="unitPrice">79,000원</strong>
+        <del>99,000원</del>
+      </div>
+
+      <fieldset class="opt">
+        <legend>색상 <span id="colorName">세이지 민트</span></legend>
+        <div class="swatches" id="swatches">
+          <label><input type="radio" name="color" value="mint" checked /><i style="--c:#CFE5D0"></i><span>세이지 민트</span></label>
+          <label><input type="radio" name="color" value="cream" /><i style="--c:#F3EBD9"></i><span>밀크 크림</span></label>
+          <label><input type="radio" name="color" value="peach" /><i style="--c:#F6D3C8"></i><span>피치 블러썸</span></label>
+          <label><input type="radio" name="color" value="sky" /><i style="--c:#CFE1F0"></i><span>스카이 블루</span></label>
+          <label><input type="radio" name="color" value="lavender" /><i style="--c:#DCD3EE"></i><span>라벤더</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="opt">
+        <legend>구성</legend>
+        <select id="bundle" name="bundle">
+          <option value="0">기본 구성 (본체 + C타입 케이블)</option>
+          <option value="9000">+ 꾸미 보호 파우치 (+9,000원)</option>
+          <option value="15000">+ 파우치 + 액세서리 3종 (+15,000원)</option>
+        </select>
+      </fieldset>
+
+      <fieldset class="opt qty-row">
+        <legend>수량</legend>
+        <div class="qty">
+          <button type="button" id="qtyMinus" aria-label="수량 줄이기">−</button>
+          <input type="number" id="qty" value="1" min="1" max="10" aria-label="수량" />
+          <button type="button" id="qtyPlus" aria-label="수량 늘리기">+</button>
+        </div>
+      </fieldset>
+
+      <div class="total"><span>총 상품 금액</span><strong id="total">79,000원</strong></div>
+      <ul class="perks"><li>무료 배송</li><li>1년 무상 A/S</li><li>앱 평생 무료</li></ul>
+      <div class="buy-actions">
+        <button type="button" class="btn btn-line" id="cartBtn">장바구니</button>
+        <button type="submit" class="btn btn-forest">구매하기</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ================= 고민중 배너 ================= -->
+<section class="hesitate">
+  <div class="wrap">
+    <div class="pill-banner reveal">
+      <div>
+        <h2>혹시,<br />아직도 고민중이세요?</h2>
+        <p>나처럼 집중이 어려운 사람들이 꾸미를 가장 많이 데려갔어요.</p>
+      </div>
+      <a href="#buy" class="pill-kkumi" aria-label="구매하러 가기"><div data-kkumi="sad"></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 소식 ================= -->
+<section class="section news" id="news">
+  <div class="wrap news-inner">
+    <h2 class="news-title">뚜둥, 꾸미 소식이에요 <span>›</span></h2>
+    <ul class="news-list">
+      <li><a href="collab.html">꾸미 × 치이카와 콜라보 에디션 사전 예약 오픈</a><time>2026-10-13</time></li>
+      <li><a href="#app">꾸미 앱 1.2 업데이트: 주간 리포트 패턴 분석 추가</a><time>2026-10-01</time></li>
+      <li><a href="#">중간고사 시즌 연속 공부 챌린지 안내</a><time>2026-09-20</time></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 도움말 / FAQ ================= -->
+<section class="help" id="help">
+  <div class="help-bg" aria-hidden="true"><div data-kkumi="happy"></div></div>
+  <div class="wrap help-inner">
+    <div class="help-copy">
+      <h2>도움이<br />필요하세요?</h2>
+      <p>궁금한 점을 눌러보세요. 더 필요한 건 채팅 상담으로 빠르게 알려드려요.</p>
+    </div>
+    <div class="faq" id="faq">
+      <details><summary>폰을 꼭 연결해야 쓸 수 있나요?</summary><p>아니요. 꾸미 단독으로도 공부 기록·휴식·응원 기능을 쓸 수 있어요. 휴대폰 사용 감지, 달력, 주간 리포트는 앱 연결 후 사용 가능해요.</p></details>
+      <details><summary>휴대폰 사용 시간은 어떻게 알아요?</summary><p>앱에서 화면 사용 권한을 허용하면, 공부 모드 중 휴대폰을 사용한 시간만 꾸미에게 블루투스로 전달돼요. 어떤 앱을 썼는지는 저장하지 않아요.</p></details>
+      <details><summary>충전은 얼마나 걸려요?</summary><p>C타입 케이블로 약 2시간이면 완충되고, 최대 12시간까지 사용할 수 있어요.</p></details>
+      <details><summary>콜라보 에디션도 앱 테마가 바뀌나요?</summary><p>네! 콜라보 에디션을 연결하면 앱 전체가 해당 테마로 바뀌어요.</p></details>
+    </div>
+  </div>
+  <div class="wrap help-buttons">
+    <a href="#faq">자주 묻는 질문</a><a href="#">A/S 신청</a><a href="#">배송 조회</a><a href="#">채팅 상담</a><a href="#">이메일 문의</a><a href="#app">앱 설치 안내</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><span class="logo-leaf" aria-hidden="true"></span>KKUMi</a>
+      <span class="cs">고객센터 1588-0000</span>
+    </div>
+    <nav class="footer-links"><a href="#">이용약관</a><a href="#"><b>개인정보처리방침</b></a><a href="#">제휴 문의</a><a href="collab.html">콜라보</a></nav>
+    <p class="copy">© 2026 KKUMi. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ================= 콜라보 광고 팝업 ================= -->
+<aside class="collab-pop" id="collabPop" role="dialog" aria-label="콜라보 에디션 소식" hidden>
+  <button class="cp-close" id="cpClose" aria-label="팝업 닫기">×</button>
+  <a href="collab.html" class="cp-body">
+    <div class="cp-img">
+      <img src="images/ek.png" alt="" id="cpImg" />
+    </div>
+    <div class="cp-text">
+      <span class="cp-badge">NEW · 사전 예약</span>
+      <strong>꾸미 × 먼작귀<br />콜라보 에디션</strong>
+      <span class="cp-link">보러 가기 →</span>
+    </div>
+  </a>
+  <button class="cp-today" id="cpToday">오늘 하루 보지 않기</button>
+</aside>
+
+<script src="js/kkumi-face.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
