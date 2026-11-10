@@ -1,0 +1,13 @@
+[theme]
+base = "light"
+primaryColor = "#4F46E5"
+backgroundColor = "#F7F8FC"
+secondaryBackgroundColor = "#EEF0F8"
+textColor = "#111827"
+
+[server]
+# 답변 오디오(base64)를 주고받기 위해 넉넉하게
+maxMessageSize = 200
+
+[browser]
+gatherUsageStats = false

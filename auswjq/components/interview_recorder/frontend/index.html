@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interview Recorder</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="question-card">
+      <span class="q-label">면접관 질문</span>
+      <p id="question">질문을 불러오는 중…</p>
+    </div>
+
+    <div class="grid">
+      <!-- 카메라 영역 -->
+      <div class="stage">
+        <video id="video" playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div id="placeholder" class="placeholder">
+          <div class="cam-icon">📷</div>
+          <p>답변 시작을 누르면 카메라와 마이크가 켜져요</p>
+          <small id="modelStatus">AI 얼굴 분석 모델 준비 중…</small>
+        </div>
+        <div id="countdown" class="countdown hidden">3</div>
+        <div class="top-bar">
+          <span id="recBadge" class="rec hidden"><i></i>REC</span>
+          <span id="timer" class="timer">00:00</span>
+        </div>
+        <div class="expr" id="exprBadge">😐 무표정</div>
+        <div class="meter"><div id="meterFill"></div></div>
+      </div>
+
+      <!-- 실시간 코칭 패널 -->
+      <div class="side">
+        <div class="panel">
+          <div class="panel-title">실시간 분석</div>
+          <div class="stat"><span>👀 시선 맞춤</span><b id="sEye">-</b></div>
+          <div class="bar"><div id="bEye"></div></div>
+          <div class="stat"><span>😊 미소</span><b id="sSmile">-</b></div>
+          <div class="bar"><div id="bSmile" class="green"></div></div>
+          <div class="stat"><span>🔊 성량</span><b id="sVol">-</b></div>
+          <div class="bar"><div id="bVol" class="cyan"></div></div>
+          <div class="stat"><span>⏩ 말하기 속도</span><b id="sSpeed">-</b></div>
+          <div class="stat"><span>🎵 억양 변화</span><b id="sPitch">-</b></div>
+          <div class="stat"><span>🗣️ 습관어</span><b id="sFiller">0회</b></div>
+          <div id="fillerChips" class="chips"></div>
+        </div>
+        <div class="panel coach">
+          <div class="panel-title">AI 코치 <span id="gptBadge" class="badge">GPT</span></div>
+          <p id="gptTip" class="tip">답변을 시작하면 코칭이 표시돼요.</p>
+          <ul id="hints" class="hints"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="transcript">
+      <span class="q-label">실시간 자막</span>
+      <p id="transcript"><span class="muted">말씀하시면 여기에 표시돼요 (Chrome 권장)</span></p>
+    </div>
+
+    <div class="controls">
+      <button id="startBtn" class="btn primary">● 답변 시작</button>
+      <button id="stopBtn" class="btn danger" disabled>■ 답변 완료</button>
+      <span id="status" class="status"></span>
+    </div>
+  </div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

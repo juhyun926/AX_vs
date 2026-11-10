@@ -1,4 +1,5 @@
 import os
+import base64
 import streamlit as st
 import requests
 import pandas as pd
@@ -15,44 +16,75 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# 1. 감성 버터-파스텔 테마 및 커스텀 스타일링
-st.markdown("""
+# 1. 로컬 폰트 (fonts/온글잎 콘콘체.ttf) Base64 로더 함수
+def get_font_base64():
+    possible_paths = [
+        os.path.join("fonts", "온글잎 콘콘체.ttf"),
+        os.path.join("..", "fonts", "온글잎 콘콘체.ttf"),
+        os.path.join(os.path.dirname(__file__), "fonts", "온글잎 콘콘체.ttf") if "__file__" in locals() else "fonts/온글잎 콘콘체.ttf",
+        os.path.join(os.path.dirname(__file__), "..", "fonts", "온글잎 콘콘체.ttf") if "__file__" in locals() else "../fonts/온글잎 콘콘체.ttf",
+    ]
+    for path in possible_paths:
+        if os.path.exists(path):
+            with open(path, "rb") as f:
+                return base64.b64encode(f.read()).decode()
+    return None
+
+font_base64 = get_font_base64()
+font_face_css = ""
+if font_base64:
+    font_face_css = f"""
+    @font-face {{
+        font-family: 'OwnglyphKonkon';
+        src: url(data:font/truetype;charset=utf-8;base64,{font_base64}) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }}
+    """
+
+# 2. 감성 버터-파스텔 스타일링 (온글잎 콘콘체 적용)
+st.markdown(f"""
 <style>
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    {font_face_css}
     
-    /* 전체 배경: 따뜻하고 부드러운 크림 버터 톤 */
-    .stApp {
+    /* 전체 기본 본문 폰트 */
+    .stApp {{
         background: #FFFDF2;
         font-family: 'Pretendard', sans-serif;
-    }
+    }}
 
     /* 사이드바 */
-    section[data-testid="stSidebar"] {
+    section[data-testid="stSidebar"] {{
         background-color: #FFF9E6 !important;
         border-right: 2px solid #F6E7B8 !important;
-    }
+    }}
 
-    /* 상단 배너 & 빅 타이틀 */
-    .cute-banner {
+    /* 상단 배너 */
+    .cute-banner {{
         background: #FFFFFF;
         border: 2.5px solid #FFE066;
         border-radius: 26px;
-        padding: 28px 36px;
+        padding: 24px 34px;
         margin-bottom: 24px;
         box-shadow: 0 8px 26px rgba(255, 224, 102, 0.32);
         display: flex;
         align-items: center;
         justify-content: space-between;
-    }
-    .cute-banner h1 {
+    }}
+
+    /* ✨ 온글잎 콘콘체 타이틀 */
+    .cute-banner h1 {{
+        font-family: 'OwnglyphKonkon', 'Pretendard', sans-serif !important;
         color: #1F2937;
-        font-size: 38px !important;
-        font-weight: 900 !important;
+        font-size: 42px !important;
+        font-weight: normal !important;
         margin: 6px 0 2px 0;
-        letter-spacing: -1px;
-        line-height: 1.2;
-    }
-    .cute-badge {
+        letter-spacing: 0px;
+        line-height: 1.25;
+    }}
+
+    .cute-badge {{
         background-color: #3B82F6;
         color: #FFFFFF;
         font-size: 12px;
@@ -61,10 +93,10 @@ st.markdown("""
         border-radius: 999px;
         display: inline-block;
         box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-    }
+    }}
 
     /* 연파랑 스팟 카드 */
-    .cute-card {
+    .cute-card {{
         background-color: #F0F7FF;
         border: none !important;
         border-radius: 18px;
@@ -72,13 +104,13 @@ st.markdown("""
         margin-bottom: 12px;
         box-shadow: 0 4px 14px rgba(59, 130, 246, 0.05);
         transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .cute-card:hover {
+    }}
+    .cute-card:hover {{
         background-color: #E6F1FE;
         transform: translateY(-3px) scale(1.01);
         box-shadow: 0 8px 20px rgba(59, 130, 246, 0.12);
-    }
-    .cute-card-badge {
+    }}
+    .cute-card-badge {{
         background: #FFFFFF;
         color: #2563EB;
         font-size: 11px;
@@ -88,45 +120,45 @@ st.markdown("""
         display: inline-block;
         margin-bottom: 8px;
         box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-    }
-    .cute-card-title {
+    }}
+    .cute-card-title {{
         font-size: 17px;
         font-weight: 800;
         color: #0F172A;
         margin-bottom: 6px;
-    }
-    .cute-card-desc {
+    }}
+    .cute-card-desc {{
         font-size: 13px;
         color: #475569;
         margin: 3px 0;
         line-height: 1.45;
-    }
+    }}
 
-    /* 사이드바 통화 강조 칩 */
-    .curr-highlight {
+    /* 사이드바 통화 안내 박스 */
+    .curr-highlight {{
         background: #FFFFFF;
         border: 2px dashed #3B82F6;
         border-radius: 16px;
         padding: 14px 16px;
         margin-bottom: 14px;
         text-align: center;
-    }
+    }}
 
-    /* ✨ 환율 결과 알림 박스를 파스텔 블루로 변경 */
-    div[data-testid="stAlert"] {
+    /* 환율 결과 알림창 (파스텔 블루) */
+    div[data-testid="stAlert"] {{
         background-color: #F0F7FF !important;
         color: #1D4ED8 !important;
         border: 1.5px solid #BFDBFE !important;
         border-radius: 14px !important;
         box-shadow: 0 2px 8px rgba(59, 130, 246, 0.06) !important;
-    }
-    div[data-testid="stAlert"] p {
+    }}
+    div[data-testid="stAlert"] p {{
         color: #1D4ED8 !important;
         font-weight: 700 !important;
-    }
+    }}
 
     /* 메인 검색 버튼 */
-    div.stButton > button {
+    div.stButton > button {{
         background: #FEE500 !important;
         color: #1F2937 !important;
         font-weight: 800 !important;
@@ -135,16 +167,16 @@ st.markdown("""
         height: 44px;
         box-shadow: 0 4px 12px rgba(254, 229, 0, 0.45) !important;
         transition: all 0.2s ease !important;
-    }
-    div.stButton > button:hover {
+    }}
+    div.stButton > button:hover {{
         background: #3B82F6 !important;
         color: #FFFFFF !important;
         box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35) !important;
         transform: translateY(-1px);
-    }
+    }}
 
-    /* 추천 태그 칩 */
-    div[data-testid="stHorizontalBlock"] div.stButton > button {
+    /* 추천 칩 */
+    div[data-testid="stHorizontalBlock"] div.stButton > button {{
         background-color: #FFFFFF !important;
         color: #4B5563 !important;
         font-size: 13px !important;
@@ -153,15 +185,15 @@ st.markdown("""
         border-radius: 999px !important;
         border: 1.5px solid #F1E2A8 !important;
         box-shadow: 0 2px 6px rgba(0,0,0,0.02) !important;
-    }
-    div[data-testid="stHorizontalBlock"] div.stButton > button:hover {
+    }}
+    div[data-testid="stHorizontalBlock"] div.stButton > button:hover {{
         background-color: #FFE066 !important;
         color: #1F2937 !important;
         border-color: #FFE066 !important;
-    }
+    }}
 
     /* 구글 지도 링크 버튼 */
-    div[data-testid="stLinkButton"] > a {
+    div[data-testid="stLinkButton"] > a {{
         background-color: #FFFFFF !important;
         color: #2563EB !important;
         border: 1.5px solid #DCEBFE !important;
@@ -171,17 +203,17 @@ st.markdown("""
         text-align: center;
         box-shadow: 0 2px 6px rgba(37, 99, 235, 0.04) !important;
         transition: all 0.2s;
-    }
-    div[data-testid="stLinkButton"] > a:hover {
+    }}
+    div[data-testid="stLinkButton"] > a:hover {{
         background-color: #2563EB !important;
         color: #FFFFFF !important;
         border-color: #2563EB !important;
-    }
+    }}
 </style>
 """, unsafe_allow_html=True)
 
 
-# 2. 국가 코드 <-> 통화 매핑 딕셔너리
+# 3. 국가 코드 <-> 통화 매핑
 COUNTRY_TO_CURRENCY = {
     "jp": "JPY",  # 일본
     "us": "USD",  # 미국
@@ -217,7 +249,7 @@ CURRENCY_INFO = {
 }
 
 
-# 3. 글로벌 장소 검색 함수
+# 4. 전 세계 장소 검색 함수
 @st.cache_data(ttl=3600)
 def search_global_places(query: str, limit: int = 8):
     if not query.strip():
@@ -240,7 +272,7 @@ def search_global_places(query: str, limit: int = 8):
         return []
 
 
-# 4. 실시간 환율 조회 함수
+# 5. 실시간 환율 조회 함수
 @st.cache_data(ttl=3600)
 def get_exchange_rate(target_currency: str):
     if target_currency == "KRW":
@@ -264,12 +296,12 @@ if "auto_currency" not in st.session_state:
     st.session_state["auto_currency"] = "JPY"
 
 
-# 5. 상단 브랜드 배너
+# 6. 상단 감성 배너 (온글잎 콘콘체 적용)
 st.markdown("""
 <div class="cute-banner">
     <div>
         <span class="cute-badge">✦ GLOBAL TRIP COMPANION ✦</span>
-        <h1> 🐹Voyage Mate : Global Travel Assistant</h1>
+        <h1>🫧 Voyage Mate : Global Travel Assistant</h1>
         <p style="margin: 6px 0 0 0; color: #64748B; font-size: 14px; font-weight: 500;">
             목적지를 검색하면 지도 이동과 함께 현지 통화 환율이 자동으로 쏙 바뀝니다!
         </p>
@@ -279,7 +311,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# 6. 검색창 & 추천 칩
+# 7. 검색창 및 추천 칩
 col_input, col_btn = st.columns([5, 1])
 with col_input:
     user_input = st.text_input(
@@ -304,7 +336,7 @@ for idx, tag in enumerate(tag_list):
 st.write("")
 
 
-# 7. 장소 검색 및 국가 자동 감지
+# 8. 장소 검색 실행 및 통화 자동 연동
 query_to_run = st.session_state["active_global_query"]
 places = search_global_places(query_to_run, limit=8)
 
@@ -322,7 +354,7 @@ if places:
         st.session_state["auto_currency"] = detected_currency
 
 
-# 8. 사이드바 (자동 환율 계산기 + 체크리스트)
+# 9. 사이드바 (자동 환율 계산기 + 체크리스트)
 with st.sidebar:
     st.markdown("## 🧭 여행 플래너 포켓")
     st.caption("검색 지역에 맞춰 환율이 자동으로 세팅돼요.")
@@ -364,7 +396,6 @@ with st.sidebar:
                 key="cute_calc_val"
             )
             total_krw = calc_val * rate
-            # ✨ 파스텔 블루 알림창으로 출력
             st.success(f"약 **{total_krw:,.0f} KRW**")
         else:
             st.warning("환율 키를 확인해주세요.")
@@ -380,7 +411,7 @@ with st.sidebar:
     st.checkbox("상비약 (소화제/진통제/지사제) 챙기기")
 
 
-# 9. 2분할 뷰 (좌측: 지도 / 우측: 스팟 카드 목록)
+# 10. 좌우 2분할 뷰 (좌: 지도 / 우: 스팟 카드 목록)
 if places:
     col_left_map, col_right_list = st.columns([1.15, 0.85], gap="large")
 
